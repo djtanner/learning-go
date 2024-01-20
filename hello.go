@@ -13,15 +13,23 @@ func Hello(name string, language string) string {
 		name = "World"
 	}
 
-	if language == spanish {
-		return spanishHelloPrefix + name
-	}
+	return greetingPrefix(language) + name
+}
 
-	if language == french {
-		return frenchHelloPrefix + name
-	}
+// named return value (prefix string)
+// private functions start with lowercase
+func greetingPrefix(language string) (prefix string) {
+	switch language {
+	case spanish:
+		prefix = spanishHelloPrefix
 
-	return englishHelloPrefix + name
+	case french:
+		prefix = frenchHelloPrefix
+	default:
+		prefix = englishHelloPrefix
+	}
+	return
+
 }
 
 func main() {
