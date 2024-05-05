@@ -23,6 +23,15 @@ func TestSplitting(t *testing.T) {
 
 }
 
+func TestLower(t *testing.T) {
+	t.Run("testing lower", func(t *testing.T) {
+		got := Lower("HeLlO")
+		want := "hello"
+		assertCorrectStr(t, got, want)
+	})
+
+}
+
 func assertCorrectMessage(t testing.TB, got, want bool) {
 	t.Helper()
 	if got != want {
@@ -33,6 +42,13 @@ func assertCorrectMessage(t testing.TB, got, want bool) {
 func assertSplitMessage(t testing.TB, got, want []string) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+func assertCorrectStr(t testing.TB, got, want string) {
+	t.Helper()
+	if got != want {
 		t.Errorf("got %q want %q", got, want)
 	}
 }

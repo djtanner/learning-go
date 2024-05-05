@@ -11,3 +11,8 @@ func ContainsZ(word string) bool {
 func Splitting(sentence string) []string {
 	return strings.Split(sentence, " ")
 }
+
+func Lower(word string) string {
+
+	return strings.ToLower(word)
+}
