@@ -1,23 +1,50 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestWallet(t *testing.T) {
+	assertBalance := func(t testing.TB, wallet Wallet, want Bitcoin) {
+		t.Helper()
+		got := wallet.Balance()
 
-	wallet := Wallet{}
-
-	wallet.Deposit(10)
-
-	got := wallet.Balance()
-
-	fmt.Printf("address of balance in test is %p \n", &wallet.balance)
-
-	want := 10
-
-	if got != want {
-		t.Errorf("got %d want %d", got, want)
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
 	}
+
+	assertError := func(t testing.TB, got error, want error) {
+		t.Helper() //marks this function as a helper function, which means when it fails the line number reported will be in our function call rather than inside our test helper
+		if got == nil {
+			t.Fatal("wanted an error but didn't get one")
+		}
+
+		if got != want {
+			t.Errorf("got '%s', want '%s'", got, want)
+		}
+	}
+	t.Run("deposit", func(t *testing.T) {
+		wallet := Wallet{}
+
+		wallet.Deposit(Bitcoin(10))
+
+		assertBalance(t, wallet, Bitcoin(10))
+	})
+
+	t.Run("withdraw", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
+		wallet.Withdraw(Bitcoin(10))
+
+		assertBalance(t, wallet, Bitcoin(10))
+	})
+	t.Run("withdraw insufficient funds", func(t *testing.T) {
+		startingBalance := Bitcoin(20)
+		wallet := Wallet{startingBalance}
+		err := wallet.Withdraw(Bitcoin(100))
+
+		assertError(t, err, ErrInsufficientFunds)
+		assertBalance(t, wallet, startingBalance)
+
+	})
 }
