@@ -1,0 +1,5 @@
+Make a save method on this struct to write a text-file with Title
+as its name and Body as its content. Make a load function which,
+given the title string, reads the corresponding text-file. Use *Page as an
+argument because the structs could be quite large and we don’t want to make
+copies of them in memory. Use the ioutil functions to read and write from/to a file.
